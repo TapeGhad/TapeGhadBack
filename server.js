@@ -13,7 +13,7 @@ const TagRouter = require('./routes/tags');
 const ItemRouter = require('./routes/items');
 
 
-const uri = "mongodb://TapeGhad:1563qazQAZ1563@tapeghadtask2-shard-00-00-mc0lt.mongodb.net:27017,tapeghadtask2-shard-00-01-mc0lt.mongodb.net:27017,tapeghadtask2-shard-00-02-mc0lt.mongodb.net:27017/test?ssl=true&replicaSet=tapeghadtask2-shard-0&authSource=admin&retryWrites=true&w=majority";
+const uri = "mongodb://TapeGhad:1563qazQAZ1563@tapeghadkp-shard-00-00-4avog.mongodb.net:27017,tapeghadkp-shard-00-01-4avog.mongodb.net:27017,tapeghadkp-shard-00-02-4avog.mongodb.net:27017/test?ssl=true&replicaSet=tapeghadkp-shard-0&authSource=admin&retryWrites=true&w=majority";
 
 const Topics = require('./models/topics.model');
 const Collection = require('./models/collection.model');
