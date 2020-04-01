@@ -20,28 +20,30 @@ router.route('/add').post((req, res) => {
 });
 
   User.findOne({username: username}, function( err, user) {
-      
+    console.log("1 step:")
     if (user)
      {
       res.json('User already exists')
      }
      else {
         User.findOne({email: email}, function( err, email) {
+          console.log("2 step:")
           if (email)
           {
             res.json('Email already exists')
           }
           else {
+            console.log("3 step:")
             newUser.save()
               .then(() => {
                     res.json('User added succesfully.')
                 })
-              .catch(err => res.json('Some error, try later'));
+              .catch(err => {console.log("Here is err");res.json('Some error, try later')});
           }
         })
      }
   })
-  .catch(err => res.json('Some error, try later'));
+  .catch(err => {console.log("Cant find"); res.json('Some error, try later')});
 });
 
 router.route('/checkUserData').post((req, res) => {
