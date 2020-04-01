@@ -18,6 +18,7 @@ router.route('/add').post((req, res) => {
       password,
       email
 });
+  console.log(newUser);
 
   User.findOne({username: username}, function( err, user) {
     console.log("1 step:")
