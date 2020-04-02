@@ -44,9 +44,9 @@ app.get('/topics', (req, res) => {
 
 app.post('/topics/add', (req, res) => {
   const nameTopic = req.body.nameTopic;
-  const newTopic = {
+  const newTopic = new Topics({
     name: nameTopic
-  }
+  })
   newTopic.save().then(ok=> res.send("Saved"))
 })
 // db.collections.createIndex({description: "text", topic: "text"}, {"weights": {description: 1, topic: 2}})
