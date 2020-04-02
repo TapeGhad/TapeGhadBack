@@ -11,6 +11,7 @@ const usersRouter = require('./routes/users');
 const CollRouter = require('./routes/collections');
 const TagRouter = require('./routes/tags');
 const ItemRouter = require('./routes/items');
+const indexRouter = require('./routes/indexes');
 
 
 const uri = "mongodb+srv://TapeGhad:1563qazQAZ1563@tapeghadkp-4avog.mongodb.net/test?retryWrites=true&w=majority";
