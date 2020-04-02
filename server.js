@@ -11,7 +11,6 @@ const usersRouter = require('./routes/users');
 const CollRouter = require('./routes/collections');
 const TagRouter = require('./routes/tags');
 const ItemRouter = require('./routes/items');
-const indexRouter = require('./routes/indexes');
 
 
 const uri = "mongodb+srv://TapeGhad:1563qazQAZ1563@tapeghadkp-4avog.mongodb.net/test?retryWrites=true&w=majority";
@@ -28,8 +27,6 @@ const connection = mongoose.connection;
 connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 })
-
-app.use('/indexes', indexRouter);
 
 app.use('/users', usersRouter);
 
@@ -75,6 +72,18 @@ app.post('/search', (req, res) => {
 app.get('/', (req, res) => {
     res.send("Hello my friend!")
 })
+
+app.get('/indexColl', (req, res) => {
+  Collection.createIndex({description: "text", topic: "text"}, {"weights": {description: 1, topic: 2}}).then(ok => res.json("Ok"))
+  .catch(err => res.json('Some error, try later111'));
+})
+
+app.get('/indexItem', (req, res) => {
+  Item.createIndex({collectionName: "text", name: "text", tags: "text", comments:"text"}, {"weights": {collectionName: 1, name: 2, tags: 3, comments: 4}}).then(ok => res.json("Ok"))
+    .catch(err => res.json('Some error, try later111'));
+})
+
+
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
