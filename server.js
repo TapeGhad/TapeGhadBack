@@ -28,6 +28,8 @@ connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 })
 
+app.use('/indexes', indexRouter);
+
 app.use('/users', usersRouter);
 
 app.use('/collections', CollRouter);
