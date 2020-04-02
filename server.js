@@ -13,7 +13,7 @@ const TagRouter = require('./routes/tags');
 const ItemRouter = require('./routes/items');
 
 
-const uri = "mongodb://TapeGhad:1563qazQAZ1563@tapeghadkp-shard-00-00-4avog.mongodb.net:27017,tapeghadkp-shard-00-01-4avog.mongodb.net:27017,tapeghadkp-shard-00-02-4avog.mongodb.net:27017/test?ssl=true&replicaSet=tapeghadkp-shard-0&authSource=admin&retryWrites=true&w=majority";
+const uri = "mongodb+srv://TapeGhad:1563qazQAZ1563@tapeghadkp-4avog.mongodb.net/test?retryWrites=true&w=majority";
 
 const Topics = require('./models/topics.model');
 const Collection = require('./models/collection.model');
@@ -22,8 +22,7 @@ const Item = require('./models/item.model');
 
 app.use(cors());
 app.use(express.json());
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true,useFindAndModify: false  }
-);
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true,useFindAndModify: false  });
 const connection = mongoose.connection;
 connection.once('open', () => {
   console.log("MongoDB database connection established successfully");

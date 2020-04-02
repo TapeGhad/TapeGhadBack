@@ -35,7 +35,7 @@ router.route('/add').post((req, res) => {
           }
           else {
             console.log("3 step:")
-            User.create({username: username, password: password, email:email})
+            newUser.save()
               .then(() => {
                     res.json('User added succesfully.')
                 })
