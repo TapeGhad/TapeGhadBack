@@ -8,6 +8,13 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/add').post((req, res) => {
+ const newTag = new Tag({
+   name: req.body.nameTag
+ })
+ newTag.save().then(ok=>res.json("Ok")).catch(err=> res.json("Error"))
+});
+
 // router.route('/info').post((req, res) => {
 //   const nameColl = req.body.nameColl;
 
