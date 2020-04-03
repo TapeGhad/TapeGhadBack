@@ -106,17 +106,20 @@ router.route('/logout').post((req, res) => {
 });
 
 router.route('/test').get((req, res) => {
-  User.find()
+  User.find({}, {username:1})
     .then(async users => {
       var collections=0;
+      var obj = [];
+      var iter = 0;
       await asyncForEach(users, async (user) => {
         await Collection.find({owner: user.username}).then( coll=> collections+=coll.length)
-        user.collection=collections
-        console.log(user)
+        obj[iter]=user
+        obj[iter].collection=collections
+        console.log(obj)
         console.log("Working");
       })
       console.log("Done!")
-      res.json(users)
+      res.json(obj)
     })
     .catch(err => res.status(400).json('Error: ' + err));
 });
