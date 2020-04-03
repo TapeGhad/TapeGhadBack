@@ -108,16 +108,16 @@ router.route('/logout').post((req, res) => {
 router.route('/test').get((req, res) => {
   User.find({}, {username:1})
     .then(async users => {
-      var collections=0;
       var obj = [];
       var iter = 0;
       await asyncForEach(users, async (user) => {
+        var collections=0;
         await Collection.find({owner: user.username}).then( coll=> collections+=coll.length)
         obj[iter]=user
         obj.push(collections)
         console.log(obj)
         console.log("Working");
-        iter++;
+        iter+=2;
       })
       console.log("Done!")
       res.json(obj)
