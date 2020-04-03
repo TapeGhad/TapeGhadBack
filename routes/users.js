@@ -15,7 +15,7 @@ router.route('/admin').get((req, res) => {
   User.find()
     .then(users => {
 
-      users = users.forEach(user => {
+      users.forEach(user => {
         var item = 0;
         var collections=0;
         Collection.find({owner: user.username}, function(err, coll) {
