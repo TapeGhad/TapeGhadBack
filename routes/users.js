@@ -14,15 +14,19 @@ router.route('/').get((req, res) => {
 router.route('/admin').get((req, res) => {
   User.find({}, {username: 1, _id: 0})
     .then(users => {
+      console.log("Step 1 (users):", users)
       var obj= [];
       obj=obj.concat(users)
+      console.log("Step 2 (obj):", obj)
       obj.forEach(ob => {
         var item = 0;
         var collections=0;
         Collection.find({owner: ob.username}, function(err, coll) {
+          console.log("Step 3 (coll):", coll)
           collections = coll.length;
           coll.forEach(coll => {
             Item.find({collectionName: coll.name}, function(err, items) {
+              console.log("Step 4 (items):", items)
               item=item + items.length;
             })
           })
