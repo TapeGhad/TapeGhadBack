@@ -8,11 +8,11 @@ const async = require("async");
 async function GetInfoUser (ob) {
   var item = 0;
         var collections=0;
-        await Collection.find({owner: ob.username}, function(err, coll) {
+        await Collection.find({owner: ob.username},async function(err, coll) {
           
           collections = coll.length;
-          coll.forEach(coll => {
-          Item.find({collectionName: coll.name}, function(err, items) {
+          coll.forEach( coll => {
+          await Item.find({collectionName: coll.name}, async function(err, items) {
               
               item=item + items.length;
               ob.amountColl= collections;
