@@ -109,7 +109,7 @@ router.route('/test').get((req, res) => {
   User.find()
     .then(users => {
       asyncForEach([1, 2, 3,4,5,6,7,8,9,10], async (num) => {
-        User.find()
+        await User.find()
         console.log(num);
       })
       console.log("Done!")
