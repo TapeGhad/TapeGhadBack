@@ -13,7 +13,7 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/admin').get((req, res) => {
-  User.find({}, {username: 1, _id: 0}, function(err, users) {
+  User.find({}, {username: 1, _id: 0}, async function(err, users) {
       
       async.forEachOf(users, ob => {
         var item = 0;
