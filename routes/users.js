@@ -15,7 +15,7 @@ router.route('/').get((req, res) => {
 router.route('/admin').get((req, res) => {
   User.find({}, {username: 1, _id: 0}, async function(err, users) {
       
-      await async.forEachOf(users, ob => {
+      users.forEach(ob => {
         var item = 0;
         var collections=0;
         Collection.find({owner: ob.username}, function(err, coll) {
