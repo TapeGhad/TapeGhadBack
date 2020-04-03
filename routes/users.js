@@ -11,14 +11,11 @@ async function GetInfoUser (ob) {
         await Collection.find({owner: ob.username},async function(err, coll) {
           
           collections = coll.length;
-          coll.forEach( coll => {
-          await Item.find({collectionName: coll.name}, async function(err, items) {
-              
-              item=item + items.length;
+          
               ob.amountColl= collections;
               ob.amountItems= item;
-            })
-          })
+           
+       
           
       })
       return ob
