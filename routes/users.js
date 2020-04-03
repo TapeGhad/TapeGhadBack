@@ -28,17 +28,19 @@ router.route('/admin').get((req, res) => {
             Item.find({collectionName: coll.name}, function(err, items) {
               console.log("Step 4 (items):", items)
               item=item + items.length;
+              ob.amountColl= collections;
+              ob.amountItems= item;
+              console.log(collections)
+              console.log(item)
             })
           })
 
         })
-        console.log(collections)
-        console.log(item)
-        ob.amountColl= collections;
-        ob.amountItems= item;
+        
+        
         console.log(ob);
-      })
-      res.json(obj);
+      }).then(ok => res.json(obj))
+      
     })
     .catch(err => res.status(400).json('Error: ' + err));
 });
