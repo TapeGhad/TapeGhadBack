@@ -1,11 +1,35 @@
 const router = require('express').Router();
 const User = require('../models/user.model');
 const Session = require('../models/session.model');
+const Collection = require('../models/collection.model');
+const Item = require('../models/item.model');
 
 
 router.route('/').get((req, res) => {
   User.find()
     .then(users => res.json(users))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/admin').get((req, res) => {
+  User.find()
+    .then(users => {
+      var collections=0;
+      users.forEach(user => {
+        Collection.find({owner: user.username}, function(err, coll) {
+          collections = coll.length;
+          var item = 0;
+          coll.forEach(coll => {
+            Item.find({collectionName: coll.name}, function(err, items) {
+              item=item + items.length;
+            })
+          })
+
+        })
+        user.push({amountColl: collections, amountItems: item})
+      })
+      res.json(users);
+    })
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
