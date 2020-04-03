@@ -31,11 +31,8 @@ router.route('/admin').get((req, res) => {
           })})
           
       })
-  })
-    .then(users => {
-     
       res.json(users)
-    })
+  })
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
