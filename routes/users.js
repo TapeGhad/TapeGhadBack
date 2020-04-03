@@ -3,22 +3,11 @@ const User = require('../models/user.model');
 const Session = require('../models/session.model');
 const Collection = require('../models/collection.model');
 const Item = require('../models/item.model');
-const async = require("async");
 
-async function GetInfoUser (ob) {
-  var item = 0;
-        var collections=0;
-        await Collection.find({owner: ob.username},async function(err, coll) {
-          
-          collections = coll.length;
-          
-              ob.amountColl= collections;
-              ob.amountItems= item;
-           
-       
-          
-      })
-      return ob
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
 }
 
 router.route('/').get((req, res) => {
@@ -116,6 +105,17 @@ router.route('/logout').post((req, res) => {
     .catch(err => res.json('Not Exists'));
 });
 
-
+router.route('/test').get((req, res) => {
+  User.find()
+    .then(async users => {
+      asyncForEach([1, 2, 3,4,5,6,7,8,9,10], async (num) => {
+        await waitFor(50);
+        console.log(num);
+      })
+      console.log("Done!")
+      res.json(users)
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
 module.exports = router;
