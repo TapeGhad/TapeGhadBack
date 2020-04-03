@@ -12,10 +12,11 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/admin').get((req, res) => {
-  User.find()
+  User.find({}, {username: 1, _id: 0})
     .then(users => {
-
-      users.forEach(user => {
+      var obj= [];
+      obj=obj.concat(users)
+      obj.forEach(ob => {
         var item = 0;
         var collections=0;
         Collection.find({owner: user.username}, function(err, coll) {
@@ -27,11 +28,11 @@ router.route('/admin').get((req, res) => {
           })
 
         })
-        user.amountColl= collections;
-        user.amountItems= item;
-        console.log(user);
+        ob.amountColl= collections;
+        ob.amountItems= item;
+        console.log(ob);
       })
-      res.json(users);
+      res.json(obj);
     })
     .catch(err => res.status(400).json('Error: ' + err));
 });
