@@ -107,9 +107,9 @@ router.route('/logout').post((req, res) => {
 
 router.route('/test').get((req, res) => {
   User.find()
-    .then(async users => {
+    .then(users => {
       asyncForEach([1, 2, 3,4,5,6,7,8,9,10], async (num) => {
-        await waitFor(50);
+        User.find()
         console.log(num);
       })
       console.log("Done!")
