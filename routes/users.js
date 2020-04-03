@@ -112,12 +112,21 @@ router.route('/test').get((req, res) => {
       var iter = 0;
       await asyncForEach(users, async (user) => {
         var collections=0;
-        await Collection.find({owner: user.username}).then( coll=> collections+=coll.length)
+        var itemAmount=0
+        await Collection.find({owner: user.username}).then( async coll=> {
+          collections+=coll.length
+          await asyncForEach(coll, async (collection) => {
+            await Item.find({collectionName: collection.name}, {name: 1})
+              .then(async items => {
+                itemAmount+=items.length
+              })
+          })
         obj[iter]=user
         obj.push(collections)
+        obj.push(itemAmount)
         console.log(obj)
         console.log("Working");
-        iter+=2;
+        iter+=3;
       })
       console.log("Done!")
       res.json(obj)
