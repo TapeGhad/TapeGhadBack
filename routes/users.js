@@ -19,7 +19,7 @@ router.route('/admin').get((req, res) => {
       obj.forEach(ob => {
         var item = 0;
         var collections=0;
-        Collection.find({owner: user.username}, function(err, coll) {
+        Collection.find({owner: ob.username}, function(err, coll) {
           collections = coll.length;
           coll.forEach(coll => {
             Item.find({collectionName: coll.name}, function(err, items) {
@@ -28,6 +28,8 @@ router.route('/admin').get((req, res) => {
           })
 
         })
+        console.log(collections)
+        console.log(item)
         ob.amountColl= collections;
         ob.amountItems= item;
         console.log(ob);
