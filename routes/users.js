@@ -14,11 +14,11 @@ router.route('/').get((req, res) => {
 router.route('/admin').get((req, res) => {
   User.find()
     .then(users => {
-      var collections=0;
       users.forEach(user => {
+        var item = 0;
+        var collections=0;
         Collection.find({owner: user.username}, function(err, coll) {
           collections = coll.length;
-          var item = 0;
           coll.forEach(coll => {
             Item.find({collectionName: coll.name}, function(err, items) {
               item=item + items.length;
