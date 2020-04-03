@@ -18,11 +18,11 @@ router.route('/admin').get((req, res) => {
       async.forEachOf(users, ob => {
         var item = 0;
         var collections=0;
-        await Collection.find({owner: ob.username}, function(err, coll) {
+        Collection.find({owner: ob.username}, function(err, coll) {
           
           collections = coll.length;
           coll.forEach(coll => {
-           await Item.find({collectionName: coll.name}, function(err, items) {
+          Item.find({collectionName: coll.name}, function(err, items) {
               
               item=item + items.length;
               ob.amountColl= collections;
