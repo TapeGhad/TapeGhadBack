@@ -112,6 +112,7 @@ router.route('/test').get((req, res) => {
       await asyncForEach(users, async (user) => {
         await Collection.find({owner: user.username}).then( coll=> collections+=coll.length)
         user.collection=collections
+        console.log(user)
         console.log("Working");
       })
       console.log("Done!")
