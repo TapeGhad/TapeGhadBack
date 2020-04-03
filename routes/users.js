@@ -21,6 +21,7 @@ async function GetInfoUser (ob) {
           })
           
       })
+      return ob
 }
 
 router.route('/').get((req, res) => {
@@ -33,7 +34,7 @@ router.route('/admin').get((req, res) => {
   User.find({}, {username: 1, _id: 0}, async function(err, users) {
       
     for (var user of users) {
-      await GetInfoUser(user);
+      user = await GetInfoUser(user);
     }
       res.json(users)
   })
