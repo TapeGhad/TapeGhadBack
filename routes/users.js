@@ -5,18 +5,8 @@ const Collection = require('../models/collection.model');
 const Item = require('../models/item.model');
 const async = require("async");
 
-
-router.route('/').get((req, res) => {
-  User.find()
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
-router.route('/admin').get((req, res) => {
-  User.find({}, {username: 1, _id: 0}, async function(err, users) {
-      
-      users.forEach(ob => {
-        var item = 0;
+async function GetInfoUser (ob) {
+  var item = 0;
         var collections=0;
         Collection.find({owner: ob.username}, function(err, coll) {
           
@@ -28,9 +18,23 @@ router.route('/admin').get((req, res) => {
               ob.amountColl= collections;
               ob.amountItems= item;
             })
-          })})
+          })
           
       })
+}
+
+router.route('/').get((req, res) => {
+  User.find()
+    .then(users => res.json(users))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/admin').get((req, res) => {
+  User.find({}, {username: 1, _id: 0}, async function(err, users) {
+      
+    for (var user of users) {
+      await GetInfoUser(user);
+    }
       res.json(users)
   })
     .catch(err => res.status(400).json('Error: ' + err));
