@@ -19,7 +19,7 @@ router.route('/admin').get((req, res) => {
       var obj= [];
       obj=obj.concat(users)
       console.log("Step 2 (obj):", obj)
-      async.each(obj, function (ob) {
+      async.forEachOf(obj, ob => {
         var item = 0;
         var collections=0;
         Collection.find({owner: ob.username}, function(err, coll) {
