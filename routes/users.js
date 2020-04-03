@@ -3,6 +3,7 @@ const User = require('../models/user.model');
 const Session = require('../models/session.model');
 const Collection = require('../models/collection.model');
 const Item = require('../models/item.model');
+const async = require("async");
 
 
 router.route('/').get((req, res) => {
