@@ -121,6 +121,7 @@ router.route('/test').get((req, res) => {
                 itemAmount+=items.length
               })
           })
+        })
         obj[iter]=user
         obj.push(collections)
         obj.push(itemAmount)
