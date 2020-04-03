@@ -12,9 +12,8 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/admin').get((req, res) => {
-  User.find({}, {username: 1, _id: 0})
-    .then(users => {
-      console.log("Step 1 (users):", users)
+  User.find({}, {username: 1, _id: 0}, function(err, users) {
+    console.log("Step 1 (users):", users)
       var obj= [];
       obj=obj.concat(users)
       console.log("Step 2 (obj):", obj)
@@ -36,11 +35,10 @@ router.route('/admin').get((req, res) => {
           })
 
         })
-        
-        
-        console.log(ob);
-      }).then(ok => res.json(obj))
-      
+      })
+  })
+    .then(users => {
+      res.json(users)
     })
     .catch(err => res.status(400).json('Error: ' + err));
 });
