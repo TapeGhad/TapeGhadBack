@@ -26,8 +26,8 @@ router.route('/admin').get((req, res) => {
           })
 
         })
-        // user.push({amountColl: collections, amountItems: item})
-        console.log(user)
+        user.amountColl= collections;
+        user.amountItems= item;
       })
       res.json(users);
     })
