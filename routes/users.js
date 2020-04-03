@@ -8,7 +8,7 @@ const async = require("async");
 async function GetInfoUser (ob) {
   var item = 0;
         var collections=0;
-        Collection.find({owner: ob.username}, function(err, coll) {
+        await Collection.find({owner: ob.username}, function(err, coll) {
           
           collections = coll.length;
           coll.forEach(coll => {
