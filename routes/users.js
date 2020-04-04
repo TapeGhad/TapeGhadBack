@@ -126,6 +126,23 @@ router.route('/unblock').post((req, res) => {
     
 });
 
+router.route('/delete').post((req, res) => {
+  const username = req.body.username;
+
+  Session.findOneAndDelete({username: username}).then(async () => {
+    User.findOneAndDelete({username: username}).then( async ()=> {
+      Collection.find({owner: username}).then(async coll => {
+        await asyncForEach(coll, async (collection) => {
+              await Item.deleteMany({collectionName: collection.name})
+        })
+        await Collection.deleteMany({owner: username}).then (() => res.json("Deleted"))
+      })
+    })
+  })
+    .catch(err => res.json('Not Exists'));
+    
+});
+
 router.route('/test').get((req, res) => {
   User.find({}, {username:1, status: 1, _id: 0})
     .then(async users => {
