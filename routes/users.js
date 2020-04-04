@@ -122,9 +122,9 @@ router.route('/test').get((req, res) => {
               })
           })
         })
-        obj[iter]=user;
-        obj[iter].collection = collections;
-        obj[iter].item = itemAmount;
+        obj[iter]=user
+        obj.push(collections)
+        obj.push(itemAmount)
         console.log(obj)
         console.log("Working");
         iter+=3;
