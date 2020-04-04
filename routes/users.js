@@ -76,7 +76,7 @@ router.route('/checkUserData').post((req, res) => {
        if (user.status===0) res.json("Blocked")
        else {
        newSession.save().then(() => res.json(user.email))
-      }
+     }
      }
      else {
       res.json('Incorrect data.')
@@ -114,6 +114,14 @@ router.route('/block').post((req, res) => {
     {
       await User.findOneAndUpdate({username: username}, {status: 0}).then(ok => res.json("Okay!"))
     })
+    .catch(err => res.json('Not Exists'));
+    
+});
+
+router.route('/unblock').post((req, res) => {
+  const username = req.body.username;
+
+  User.findOneAndUpdate({username: username}, {status: 1}).then(ok => res.json("Okay!"))
     .catch(err => res.json('Not Exists'));
     
 });
