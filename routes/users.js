@@ -34,35 +34,34 @@ router.route('/add').post((req, res) => {
   const newUser = new User({
       username,
       password,
-      email
+      email,
+      status: 1
 });
   console.log(newUser);
 
   User.findOne({username: username}, function( err, user) {
-    console.log("1 step:")
     if (user)
      {
       res.json('User already exists')
      }
      else {
         User.findOne({email: email}, function( err, email) {
-          console.log("2 step:")
           if (email)
           {
             res.json('Email already exists')
           }
           else {
-            console.log("3 step:")
+            
             newUser.save()
               .then(() => {
                     res.json('User added succesfully.')
                 })
-              .catch(err => {console.log("Here is err");res.json('Some error, try later')});
+              .catch(err => {res.json('Some error, try later')});
           }
         })
      }
   })
-  .catch(err => {console.log("Cant find"); res.json('Some error, try later')});
+  .catch(err => { res.json('Some error, try later')});
 });
 
 router.route('/checkUserData').post((req, res) => {
@@ -74,7 +73,10 @@ router.route('/checkUserData').post((req, res) => {
      if (password===user.password)
      {
        const newSession = new Session({username})
+       if (user.status===0) res.json("Blocked")
+       else {
        newSession.save().then(() => res.json(user.email))
+      }
      }
      else {
       res.json('Incorrect data.')
@@ -105,8 +107,19 @@ router.route('/logout').post((req, res) => {
     .catch(err => res.json('Not Exists'));
 });
 
+router.route('/block').post((req, res) => {
+  const username = req.body.username;
+
+  Session.findOneAndDelete({username: username}, async function( err, user) 
+    {
+      await User.findOneAndUpdate({username: username}, {status: 0}).then(ok => res.json("Okay!"))
+    })
+    .catch(err => res.json('Not Exists'));
+    
+});
+
 router.route('/test').get((req, res) => {
-  User.find({}, {username:1})
+  User.find({}, {username:1, status: 1, _id: 0})
     .then(async users => {
       var obj = [];
       var iter = 0;
