@@ -7,7 +7,7 @@ const path = require("path")
 require('dotenv').config();
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT;
 
 const usersRouter = require('./routes/users');
 const CollRouter = require('./routes/collections');
