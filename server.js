@@ -107,7 +107,6 @@ app.get('/indexItem', (req, res) => {
 })
 
 app.post("/upload", function (req, res) {
-   
   let filedata = req.file;
   if(!filedata)
       res.json("Ошибка при загрузке файла");
