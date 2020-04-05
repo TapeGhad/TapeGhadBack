@@ -1,11 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const multer  = require("multer");
+const path = require("path")
 
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT;
+const port = 5000;
 
 const usersRouter = require('./routes/users');
 const CollRouter = require('./routes/collections');
@@ -28,6 +30,27 @@ connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 })
 
+
+const storageConfig = multer.diskStorage({
+  destination: (req, file, cb) =>{
+      cb(null, "uploads");
+  },
+  filename: (req, file, cb) =>{
+      cb(null, file.originalname);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  
+  if(file.mimetype === "image/png"){
+      cb(null, true);
+  }
+  else{
+      cb(null, false);
+  }
+}
+app.use(multer({storage:storageConfig, fileFilter: fileFilter}).single("filedata"));
+
 app.use('/users', usersRouter);
 
 app.use('/collections', CollRouter);
@@ -47,7 +70,7 @@ app.post('/topics/add', (req, res) => {
   const newTopic = new Topics({
     name: nameTopic
   })
-  newTopic.save().then(ok=> res.send("Saved"))
+  newTopic.save().then(ok=> res.send("Saved")).catch(err => res.send("Error"))
 })
 // db.collections.createIndex({description: "text", topic: "text"}, {"weights": {description: 1, topic: 2}})
 //db.items.createIndex({collectionName: "text", name: "text", tags: "text", comments:{"$**":"text"}}, {"weights": {collectionName: 1, name: 2, tags: 3, comments: 4}})
@@ -82,6 +105,27 @@ app.get('/indexItem', (req, res) => {
   Item.createIndex({collectionName: "text", name: "text", tags: "text", comments:"text"}, {"weights": {collectionName: 1, name: 2, tags: 3, comments: 4}}).then(ok => res.json("Ok"))
     .catch(err => res.json('Some error, try later111'));
 })
+
+app.post("/upload", function (req, res) {
+   
+  let filedata = req.file;
+  if(!filedata)
+      res.json("Ошибка при загрузке файла");
+  else
+      res.json("Файл загружен");
+});
+
+app.post("/getImage", function (req, res) {
+  const imageName = req.body.imageName;
+  res.sendFile(path.join(__dirname, '/uploads', `${imageName}.png`));
+});
+
+app.get("/download/:topic", function (req, res) {
+  res.sendFile(path.join(__dirname, '/uploads', `${req.params.topic}.png`));
+});
+
+
+
 
 
 
