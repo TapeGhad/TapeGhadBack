@@ -25,6 +25,10 @@ const userSchema = new Schema({
   status: {
     type: Number,
     required: true
+  },
+  statusAccess: {
+    type: Number,
+    required: true
   }
 
 }, {

@@ -16,16 +16,16 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/admin').get((req, res) => {
-  User.find({}, {username: 1, _id: 0}, async function(err, users) {
+// router.route('/admin').get((req, res) => {
+//   User.find({}, {username: 1, _id: 0}, async function(err, users) {
       
-    for (var user of users) {
-      user = await GetInfoUser(user);
-    }
-      res.json(users)
-  })
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+//     for (var user of users) {
+//       user = await GetInfoUser(user);
+//     }
+//       res.json(users)
+//   })
+//     .catch(err => res.status(400).json('Error: ' + err));
+// });
 
 router.route('/add').post((req, res) => {
   const username = req.body.username;
@@ -35,7 +35,8 @@ router.route('/add').post((req, res) => {
       username,
       password,
       email,
-      status: 1
+      status: 1,
+      statusAccess: 1
 });
   console.log(newUser);
 
@@ -85,6 +86,17 @@ router.route('/checkUserData').post((req, res) => {
     .catch(err => res.json('Incorrect data.'));
 });
 
+router.route('/checkAccess').post((req, res) => {
+  const username = req.body.username;
+
+  User.findOne({username: username}, function( err, user) 
+    {
+      if (user,statusAccess===1) {res.json(1)}
+      else {res.json(2)}
+    })
+    .catch(err => res.json('Not Exists'));
+});
+
 
 router.route('/confirmCookie').post((req, res) => {
   const username = req.body.username;
@@ -122,6 +134,22 @@ router.route('/unblock').post((req, res) => {
   const username = req.body.username;
 
   User.findOneAndUpdate({username: username}, {status: 1}).then(ok => res.json("Okay!"))
+    .catch(err => res.json('Not Exists'));
+    
+});
+
+router.route('/user').post((req, res) => {
+  const username = req.body.username;
+
+  User.findOneAndUpdate({username: username}, {statusAccess: 1}).then(ok => res.json("Okay!"))
+    .catch(err => res.json('Not Exists'));
+    
+});
+
+router.route('/admin').post((req, res) => {
+  const username = req.body.username;
+
+  User.findOneAndUpdate({username: username}, {statusAccess: 2}).then(ok => res.json("Okay!"))
     .catch(err => res.json('Not Exists'));
     
 });
