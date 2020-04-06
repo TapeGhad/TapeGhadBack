@@ -91,8 +91,8 @@ router.route('/checkAccess').post((req, res) => {
 
   User.findOne({username: username}, function( err, user) 
     {
-      if (user.statusAccess===1) {res.json(1)}
-      else {res.json(2)}
+      if (user.statusAccess===2) {res.json("Admin")}
+      else {res.json("User")}
     })
     .catch(err => res.json('Not Exists'));
 });
