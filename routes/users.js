@@ -172,7 +172,7 @@ router.route('/delete').post((req, res) => {
 });
 
 router.route('/test').get((req, res) => {
-  User.find({}, {username:1, status: 1, _id: 0})
+  User.find({}, {username:1, status: 1, statusAccess: 1, _id: 0})
     .then(async users => {
       var obj = [];
       var iter = 0;
